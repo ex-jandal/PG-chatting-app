@@ -71,7 +71,7 @@
                         class="w-full mb-1 flex items-center gap-3 p-4 transition-all hover:bg-accent hover:rounded-lg {activeId === chat.id ? 'bg-accent border-r-4 rounded-l-lg border-primary' : ''}"
                     >
                         <Avatar.Root>
-                            <Avatar.Fallback class="bg-gray-600">{chat.chat_name[0]}</Avatar.Fallback>
+                            <Avatar.Fallback class="text-foreground">{chat.chat_name[0]}</Avatar.Fallback>
                         </Avatar.Root>
                         <div class="flex-1 text-left truncate font-medium">
                             {chat.chat_name}
