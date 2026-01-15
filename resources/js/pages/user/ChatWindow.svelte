@@ -30,7 +30,6 @@
             onSuccess: () => {
                 $form.reset();
             },
-            preserveScroll: true
         });
     }
 

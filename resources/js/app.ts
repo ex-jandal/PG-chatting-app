@@ -2,6 +2,7 @@ import { createInertiaApp, type ResolvedComponent } from '@inertiajs/svelte';
 import { hydrate, mount } from 'svelte';
 import '../css/app.css';
 import './bootstrap';
+import './echo.js';
 
 createInertiaApp({
     resolve: (name: string) => {
