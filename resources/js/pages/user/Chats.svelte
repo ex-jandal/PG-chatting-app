@@ -9,11 +9,6 @@
     import { Plus } from "lucide-svelte";
     import ChatWindow from "./ChatWindow.svelte";
 
-    const breadcrumbs: BreadcrumbItem[] = [{
-        title: 'Chats',
-        href: '/chat'
-    }];
-
     let {
         conversations = [],
         messages = $bindable([]),
@@ -30,8 +25,28 @@
         });
     }
 
+
     // Reactively find the name of the person you are chatting with
     let activeChat = $derived(conversations.find(c => c.id === activeId));
+
+
+    const breadcrumbs: BreadcrumbItem[] = (activeId) ? [
+            {
+                title: 'Chats',
+                href: '/chat'
+            },
+            {
+                title: `${activeChat.chat_name}`,
+                href: `/chat/${activeId}`
+            }
+        ]
+            :
+        [
+            {
+                title: 'Chats',
+                href: '/chat'
+            },
+        ];
 </script>
 
 <AppLayout {breadcrumbs}>

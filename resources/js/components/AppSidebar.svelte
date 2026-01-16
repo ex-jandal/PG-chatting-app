@@ -19,7 +19,6 @@
             href: '/admin/dashboard',
             icon: LayoutGrid,
         },
-
     ];
 
     const footerNavItems: NavItem[] = [
