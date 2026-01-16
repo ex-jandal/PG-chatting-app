@@ -9,8 +9,6 @@
 
 <svelte:head>
     <title>PG Chatting App</title>
-    <link rel="preconnect" href="https://rsms.me/" />
-    <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
 </svelte:head>
 
 <div in:blur={{ duration: 500, delay: 400 }} out:blur={{ duration: 400 }} class="flex min-h-screen flex-col items-center bg-[#FDFDFC] p-6 text-[#1b1b18] dark:bg-[#0a0a0a] lg:justify-center lg:p-8">
@@ -19,7 +17,7 @@
             {#if user}
                 <Link
                     as="button"
-                    href={route('chat.index')}
+                    href={route('chat.index')} viewTransition
                     class="inline-block rounded-sm border border-[#19140035] px-5 py-1.5 text-sm leading-normal text-[#1b1b18] hover:border-[#1915014a] dark:border-[#3E3E3A] dark:text-[#EDEDEC] dark:hover:border-[#62605b]"
                 >
                     Chats
@@ -27,14 +25,14 @@
             {:else}
                 <Link
                     as="button"
-                    href={route('login')}
+                    href={route('login')} viewTransition
                     class="inline-block rounded-sm border border-transparent px-5 py-1.5 text-sm leading-normal text-[#1b1b18] hover:border-[#19140035] dark:text-[#EDEDEC] dark:hover:border-[#3E3E3A]"
                 >
                     Log in
                 </Link>
                 <Link
                     as="button"
-                    href={route('register')}
+                    href={route('register')} viewTransition
                     class="inline-block rounded-sm border border-[#19140035] px-5 py-1.5 text-sm leading-normal text-[#1b1b18] hover:border-[#1915014a] dark:border-[#3E3E3A] dark:text-[#EDEDEC] dark:hover:border-[#62605b]"
                 >
                     Register
@@ -63,7 +61,7 @@
                 </p>
 
                 <div class="flex flex-col sm:flex-row justify-center gap-4">
-                    <Button size="lg" onclick={() => router.get('chat')} class="h-14 px-8 text-md rounded-2xl group">
+                    <Button size="lg" onclick={() => router.get('chat', undefined, { viewTransition: true })} class="h-14 px-8 text-md rounded-2xl group">
                         Start Chatting
                         <ArrowRight class="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
                     </Button>
@@ -120,7 +118,7 @@
         </section>
     </main>
 
-    <footer class="border-t py-12 text-foreground">
+    <footer class="w-full border-t py-12 text-foreground">
         <div class="container mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-6">
             <div class="flex items-center gap-2">
                 <MessageCircleMore class="h-5 w-5 text-primary" />

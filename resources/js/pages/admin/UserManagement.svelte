@@ -9,7 +9,7 @@
     import { router } from "@inertiajs/svelte";
     import Label from "@/components/ui/label/label.svelte";
     import Input from "@/components/ui/input/input.svelte";
-    import ConfirmPassword from "../auth/ConfirmPassword.svelte";
+    import { blur } from "svelte/transition";
 
     let { users } = $props();
 
@@ -65,7 +65,8 @@
             onSuccess: () => {
                 displayUsers = displayUsers.filter(u => u.id !== deletedUserID);
                 deletedUserID = null;
-            }
+            },
+            viewTransition: true
         });
         isDeleting = false;
     }
@@ -85,7 +86,8 @@
                 isEditing = false;
                 const index = displayUsers.findIndex(u => u.id === editForm.id);
                 displayUsers[index] = { ...editForm };
-            }
+            },
+            viewTransition: true
         });
     }
 
@@ -105,7 +107,8 @@
                 isCreating = false;
                 displayUsers.push(createForm);
                 createForm = { id: null, name: '', email: '', password: '', role: 'user' };
-            }
+            },
+            viewTransition: true
         });
     }
 </script>
@@ -114,7 +117,7 @@
 </svelte:head>
 
 <AppLayout {breadcrumbs}>
-  <div class="p-8">
+  <div in:blur={{ duration: 400, delay: 400 }} out:blur={{ duration: 400 }} class="p-8">
     <div class="flex justify-between items-center mb-6">
       <h1 class="text-3xl font-bold">User Management</h1>
       <Button onclick={() => isCreating = true}>+ Add New User</Button>

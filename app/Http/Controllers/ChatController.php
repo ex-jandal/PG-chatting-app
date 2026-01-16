@@ -7,31 +7,33 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 
+use function Illuminate\Log\log;
+
 class ChatController extends Controller
 {
     public function index($id = null)
     {
         $authId = auth()->guard()->id();
 
-        $conversations = DB::table('conversations')
-            ->join('conversations_user as me', 'conversations.id', '=', 'me.conversation_id')
-            ->join('conversations_user as them', 'conversations.id', '=', 'them.conversation_id')
-            ->join('users', 'them.user_id', '=', 'users.id')
+        $conversations = DB::table('conversations_user as them')
+            ->select('them.conversation_id as id', 'u.name as chat_name')
+            ->join('users as u', 'them.user_id', '=', 'u.id')
+            ->join('conversations_user as me', 'them.conversation_id', '=', 'me.conversation_id')
             ->where('me.user_id', $authId)
             ->where('them.user_id', '!=', $authId)
-            ->select('conversations.id', 'users.name as chat_name', 'conversations.updated_at')
-            ->orderBy('conversations.updated_at', 'desc')
+            ->orderBy('created_at', 'asc')
             ->get();
 
         $messages = [];
         if ($id) {
             $messages = DB::table('messages')
+                ->select('messages.id', 'messages.user_id', 'messages.content', 'messages.created_at', 'users.name as user_name')
                 ->join('users', 'messages.user_id', '=', 'users.id')
                 ->where('conversations_id', $id)
-                ->select('messages.id', 'messages.user_id', 'messages.content', 'messages.created_at', 'users.name as user_name')
                 ->orderBy('created_at', 'asc')
                 ->get();
         }
+        // log(dump($messages));
 
         $allUsers = DB::table('users')->where('id', '!=', $authId)->get();
 
@@ -54,10 +56,10 @@ class ChatController extends Controller
         $targetId = $request->user_id;
 
         $existing = DB::table('conversations_user as cu1')
+            ->select('cu1.conversation_id')
             ->join('conversations_user as cu2', 'cu1.conversation_id', '=', 'cu2.conversation_id')
             ->where('cu1.user_id', $authId)
             ->where('cu2.user_id', $targetId)
-            ->select('cu1.conversation_id')
             ->first();
 
         if ($existing) {
@@ -65,7 +67,6 @@ class ChatController extends Controller
         }
 
         return DB::transaction(function () use ($authId, $targetId) {
-            // 1. Create the conversation
             $convId = DB::table('conversations')->insertGetId([
                 'is_group' => false,
                 'created_at' => now(),

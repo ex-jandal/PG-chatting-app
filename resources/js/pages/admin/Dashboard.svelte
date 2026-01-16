@@ -55,7 +55,7 @@
                     </Card.Title>
                     <Card.Action>
                         <Link
-                            href="/admin/users"
+                            href="/admin/users" viewTransition
                             class={buttonVariants({ variant: "ghost", size: "sm" })}
                         >
                             View All
@@ -67,7 +67,7 @@
                         All Users from `users` table.
                     </div>
                     <Link
-                        href="/admin/users"
+                        href="/admin/users" viewTransition
                         class="w-full {buttonVariants({ variant: 'outline', size: 'sm' })}"
                     >
                         Manage User List

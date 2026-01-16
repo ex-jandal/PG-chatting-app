@@ -8,6 +8,8 @@
     import * as Dialog from "@/components/ui/dialog";
     import { Plus } from "lucide-svelte";
     import ChatWindow from "./ChatWindow.svelte";
+    import { blur } from "svelte/transition";
+    import { onMount } from "svelte";
 
     let {
         conversations = [],
@@ -21,32 +23,41 @@
 
     function startNewChat(userId: number) {
         router.post('/chat/create', { user_id: userId }, {
-            onSuccess: () => isNewChatModalOpen = false
+            onSuccess: () => isNewChatModalOpen = false,
+            viewTransition: true
         });
     }
 
 
-    // Reactively find the name of the person you are chatting with
     let activeChat = $derived(conversations.find(c => c.id === activeId));
 
 
-    const breadcrumbs: BreadcrumbItem[] = (activeId) ? [
-            {
-                title: 'Chats',
-                href: '/chat'
-            },
-            {
-                title: `${activeChat.chat_name}`,
-                href: `/chat/${activeId}`
-            }
-        ]
-            :
-        [
-            {
-                title: 'Chats',
-                href: '/chat'
-            },
-        ];
+    let breadcrumbs: BreadcrumbItem[] = $state([
+        {
+            title: 'Chats',
+            href: '/chat'
+        },
+    ]);
+
+    onMount(() => {
+        breadcrumbs = (activeId) ? [
+                {
+                    title: 'Chats',
+                    href: '/chat'
+                },
+                {
+                    title: `${activeChat.chat_name}`,
+                    href: `/chat/${activeId}`
+                }
+            ]
+                :
+            [
+                {
+                    title: 'Chats',
+                    href: '/chat'
+                },
+            ];
+    })
 </script>
 
 <AppLayout {breadcrumbs}>
@@ -81,7 +92,7 @@
                 {#each conversations as chat}
                     <button
                         onclick={() => {
-                            router.get(`/chat/${chat.id}`)
+                            router.visit(`/chat/${chat.id}`, { viewTransition: true })
                         }}
                         class="w-full mb-1 flex items-center gap-3 p-4 transition-all hover:bg-accent hover:rounded-lg {activeId === chat.id ? 'bg-accent border-r-4 rounded-l-lg border-primary' : ''}"
                     >
@@ -96,20 +107,28 @@
             </ScrollArea>
         </aside>
 
-        {#if activeId}
-            {#key activeId}
-                <ChatWindow
-                    {activeId}
-                    {authId}
-                    bind:messages
-                    chatName={activeChat?.chat_name}
-                />
-            {/key}
-        {:else}
-            <main class="flex-1 flex flex-col items-center justify-center text-muted-foreground gap-4">
-                <p>Select a chat to start messaging</p>
-                <Button variant="secondary" onclick={() => isNewChatModalOpen = true}>Start New Conversation</Button>
-            </main>
-        {/if}
+        <main class="relative flex flex-col flex-1 bg-background overflow-hidden">
+            {#if activeId}
+                {#key activeId}
+                    <div
+                        class="absolute inset-0 flex flex-col w-full h-full overflow-hidden"
+                    >
+                        <ChatWindow
+                            {activeId}
+                            {authId}
+                            bind:messages
+                            chatName={activeChat?.chat_name}
+                        />
+                    </div>
+                {/key}
+            {:else}
+                <div
+                    class="flex-1 flex flex-col items-center justify-center text-muted-foreground gap-4"
+                >
+                    <p>Select a chat to start messaging</p>
+                    <Button variant="secondary" onclick={() => isNewChatModalOpen = true}>Start New Conversation</Button>
+                </div>
+            {/if}
+        </main>
     </div>
 </AppLayout>

@@ -43,7 +43,7 @@
         <aside class="w-full max-w-xl lg:w-48">
             <nav class="flex flex-col space-x-0 space-y-1">
                 {#each sidebarNavItems as item (item.href)}
-                    <Link href={item.href}>
+                    <Link href={item.href} viewTransition>
                         <Button
                             variant="ghost"
                             class={cn('w-full justify-start', {
