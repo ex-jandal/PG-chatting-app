@@ -24,7 +24,7 @@
 <DropdownMenuSeparator />
 <DropdownMenuGroup>
     <DropdownMenuItem>
-        <Link class="block w-full" href={route('profile.edit')} prefetch as="button">
+        <Link class="block w-full" href={route('profile.edit')} viewTransition prefetch as="button">
             <div class="flex items-center">
                 <Settings class="mr-2 h-4 w-4" />
                 <span>Settings</span>
@@ -34,7 +34,7 @@
 </DropdownMenuGroup>
 <DropdownMenuSeparator />
 <DropdownMenuItem>
-    <Link class="block w-full" method="post" onclick={handleLogout} href={route('logout')} as="button">
+    <Link class="block w-full" method="post" onclick={handleLogout} href={route('logout')} viewTransition as="button">
         <div class="flex items-center">
             <LogOut class="mr-2 h-4 w-4" />
             <span>Log out</span>

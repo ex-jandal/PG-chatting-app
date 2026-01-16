@@ -15,7 +15,7 @@
     <SidebarMenu>
         {#each items as item (item.title)}
             <SidebarMenuItem>
-                <Link href={item.href} class="block w-full">
+                <Link href={item.href} viewTransition class="block w-full">
                     <SidebarMenuButton isActive={item.href === $page.url}>
                         {#snippet tooltipContent()}
                             {item.title}

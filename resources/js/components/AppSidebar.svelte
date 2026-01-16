@@ -4,7 +4,7 @@
     import NavUser from '@/components/NavUser.svelte';
     import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
     import { type NavItem } from '@/types';
-    import { Link } from '@inertiajs/svelte';
+    import { inertia, Link, router } from '@inertiajs/svelte';
     import { Github, LayoutGrid, List, Earth } from 'lucide-svelte';
     import AppLogo from './AppLogo.svelte';
 
@@ -40,7 +40,7 @@
         <SidebarMenu>
             <SidebarMenuItem>
                 <SidebarMenuButton size="lg">
-                    <Link href={route('chat.index')}>
+                    <Link href='/chat' viewTransition>
                         <AppLogo />
                     </Link>
                 </SidebarMenuButton>
