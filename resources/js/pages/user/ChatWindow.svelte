@@ -12,7 +12,7 @@
     const form = useForm({ content: '' });
 
     onMount(() => {
-        window.Echo.leaveAllChannels();
+        // window.Echo.leaveAllChannels();
 
         window.Echo.private(`chat.${activeId}`)
             .listen('.message.sent', async (e: any) => {
@@ -33,16 +33,16 @@
         });
     }
 
-    // onDestroy(() => {
-    //     window.Echo.leave(`chat.${activeId}`);
-    // });
+    onDestroy(() => {
+        window.Echo.leave(`chat.${activeId}`);
+    });
 </script>
 
 <svelte:head>
     <title>PG - Chatting with {chatName}</title>
 </svelte:head>
 
-<main in:blur={{ duration: 500, delay: 400 }} out:blur={{ duration: 400 }} class="flex flex-col flex-1 bg-background overflow-hidden">
+<main class="flex flex-col flex-1 bg-background overflow-hidden">
     <div class="p-5.5 border-b font-semibold bg-card shrink-0">
         {chatName}
     </div>
