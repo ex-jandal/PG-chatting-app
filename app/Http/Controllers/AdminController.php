@@ -32,7 +32,7 @@ class AdminController extends Controller
         return Inertia::render('admin/Dashboard', [
             'stats' => [
                 'totalUsers' => User::count(),
-                'totalMessages' => message::count(),
+                'totalMessages' => Message::count(),
                 'histroy' => $chartData,
             ]
         ]);

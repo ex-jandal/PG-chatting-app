@@ -60,4 +60,3 @@
         {/snippet}
     </AreaChart>
 </Chart.Container>
-

@@ -55,6 +55,7 @@
                                     ? 'bg-primary text-primary-foreground rounded-tr-none'
                                     : 'bg-muted text-foreground rounded-tl-none'}"
                     >
+                        <span class="text-[12px] p-0.5 pb-2 text-foreground opacity-70 block">{msg.user_name}</span>
                         {msg.content}
                     </div>
                 </div>
