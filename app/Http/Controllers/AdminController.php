@@ -6,8 +6,11 @@ use App\Models\User;
 use App\Models\Message;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+
+use function Illuminate\Log\log;
 
 class AdminController extends Controller
 {
@@ -29,6 +32,8 @@ class AdminController extends Controller
             ];
         });
 
+        /* Cookie::queue("isAdmin", "yes", 24 * 60, '/'); */
+        /* log(dump(Cookie::get('isAdmin'))); */
         return Inertia::render('admin/Dashboard', [
             'stats' => [
                 'totalUsers' => User::count(),

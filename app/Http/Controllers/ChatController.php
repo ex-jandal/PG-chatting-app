@@ -35,7 +35,10 @@ class ChatController extends Controller
         }
         // log(dump($messages));
 
-        $allUsers = DB::table('users')->where('id', '!=', $authId)->get();
+        $allUsers = DB::table('users')
+            ->select('id', 'name')
+            ->where('id', '!=', $authId)->get();
+        /* log(dump($allUsers)); */
 
         return Inertia::render('user/Chats', [
             'conversations' => $conversations,
