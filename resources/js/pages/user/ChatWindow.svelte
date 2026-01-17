@@ -1,12 +1,12 @@
 <script lang="ts">
     import { onMount, onDestroy } from 'svelte';
-    import { useForm } from "@inertiajs/svelte";
+    import { router, useForm } from "@inertiajs/svelte";
     import { ScrollArea } from "@/components/ui/scroll-area";
     import { Plus, ArrowUp, MoreHorizontal } from "lucide-svelte";
     import * as InputGroup from "@/components/ui/input-group/index.js";
     import * as ContextMenu from "@/components/ui/context-menu/index.js";
     import Separator from '@/components/ui/separator/separator.svelte';
-    import { fly } from 'svelte/transition';
+    import { fly, fade } from 'svelte/transition';
     import Button from '@/components/ui/button/button.svelte';
     import InputGroupButton from '@/components/ui/input-group/input-group-button.svelte';
 
@@ -14,17 +14,22 @@
 
     const form = useForm({ content: '' });
 
-    let messageMenuTrigger = $state(true);
     onMount(() => {
-        window.Echo.private(`chat.${activeId}`)
-            .listen('.message.sent', async (e: any) => {
-                if (!messages.find(m => m.id === e.message.id)) {
-                    messages = [...messages, e.message];
-                }
-            });
+        let channel = window.Echo.private(`chat.${activeId}`);
+
+        channel.listen('.message.sent', async (e: any) => {
+            if (!messages.find(m => m.id === e.message.id)) {
+                messages = [...messages, e.message];
+            }
+        });
+        channel.listen('.message.delete', async (e: any) => {
+            console.log(e.messageID);
+            messages = [...messages.filter(m => m.id != e.messageID)];
+            console.log(messages);
+        });
     });
 
-    function handleSendMessage(e: Event) {
+    function sendMessage(e: Event) {
         e.preventDefault();
         if (!$form.content.trim()) return;
 
@@ -34,6 +39,10 @@
             },
         });
     }
+    function deleteMessage(message: any) {
+        router.delete(`/chat/${activeId}/delete/${message.id}`);
+    }
+
     function formateDate(input: string): string {
 
         let date = new Date(input);
@@ -49,7 +58,7 @@
 
     onDestroy(() => {
         window.Echo.leave(`chat.${activeId}`);
-        console.log("the Chat window is DISTROIED");
+        // console.log("the Chat window is DISTROIED");
     });
 </script>
 
@@ -82,7 +91,7 @@
                         </div>
                         </ContextMenu.Trigger>
                         <ContextMenu.Content class="w-52">
-                            <ContextMenu.Item inset>
+                            <ContextMenu.Item onclick={() => deleteMessage(msg)} inset>
                                 Delete
                             </ContextMenu.Item>
                             <ContextMenu.Item inset disabled>
@@ -109,8 +118,8 @@
     </ScrollArea>
 </div>
 
-<form onsubmit={handleSendMessage} class="px-2 pb-2">
-    <InputGroup.Root onsubmit={handleSendMessage}>
+<form onsubmit={sendMessage} class="px-2 pb-2">
+    <InputGroup.Root onsubmit={sendMessage}>
         <InputGroup.Input bind:value={$form.content} placeholder="Type message..." autocomplete="off" />
         <InputGroup.Addon align="block-end">
             <InputGroup.Button variant="outline" class="rounded-full" size="icon-xs">
