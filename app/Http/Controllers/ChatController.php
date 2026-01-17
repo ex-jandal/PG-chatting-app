@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\MessageDelete;
 use App\Events\MessageSent;
+use App\Models\Message;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
@@ -104,6 +106,17 @@ class ChatController extends Controller
             ->first();
 
         broadcast(new MessageSent($message));
+
+        return back();
+    }
+
+    public function distroy($id, $messageID)
+    {
+        DB::table('messages')
+            ->where('conversations_id', '=', $id)
+            ->delete($messageID);
+
+        broadcast(new MessageDelete($id, $messageID));
 
         return back();
     }
