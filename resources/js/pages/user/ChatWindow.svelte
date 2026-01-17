@@ -74,10 +74,10 @@
     <ScrollArea class="h-full w-full px-6">
         <div class="flex flex-col gap-2 py-10">
             {#each messages as msg}
-                <div in:fly={{ y: 20, duration: 500 }} class="flex group {msg.user_id === authId ? 'justify-end' : 'justify-start'}">
+                <div in:fly={{ y: 20, duration: 500 }} class="group">
                     <ContextMenu.Root>
-                        <ContextMenu.Trigger>
-                        <div class="flex flex-col relative min-w-50 max-w-[70%] rounded-2xl px-4 py-2 text-md shadow-sm
+                        <ContextMenu.Trigger class="flex {msg.user_id === authId ? 'justify-end' : 'justify-start'}">
+                        <div class="flex flex-col wrap-break-word relative min-w-50 max-w-[70%] rounded-2xl px-4 py-2 text-md shadow-sm
                             {msg.user_id === authId
                                 ? 'bg-primary text-primary-foreground rounded-tr-none'
                                 : 'bg-muted text-foreground rounded-tl-none'}"
