@@ -95,9 +95,9 @@ class ChatController extends Controller
         ]);
 
         $message = DB::table('messages')
+            ->select('messages.*', 'users.name as user_name')
             ->join('users', 'messages.user_id', '=', 'users.id')
             ->where('messages.id', $messageId)
-            ->select('messages.*', 'users.name as user_name')
             ->first();
 
         broadcast(new MessageSent($message));
