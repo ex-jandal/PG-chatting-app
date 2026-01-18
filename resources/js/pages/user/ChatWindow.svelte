@@ -2,13 +2,11 @@
     import { onMount, onDestroy } from 'svelte';
     import { router, useForm } from "@inertiajs/svelte";
     import { ScrollArea } from "@/components/ui/scroll-area";
-    import { Plus, ArrowUp, MoreHorizontal } from "lucide-svelte";
+    import { Plus, ArrowUp, Delete, Edit, Forward, Copy, MoreHorizontal } from "lucide-svelte";
     import * as InputGroup from "@/components/ui/input-group/index.js";
     import * as ContextMenu from "@/components/ui/context-menu/index.js";
     import Separator from '@/components/ui/separator/separator.svelte';
-    import { fly, fade } from 'svelte/transition';
-    import Button from '@/components/ui/button/button.svelte';
-    import InputGroupButton from '@/components/ui/input-group/input-group-button.svelte';
+    import { fly } from 'svelte/transition';
 
     let { activeId, authId, chatName, messages = $bindable([]) } = $props();
 
@@ -92,18 +90,24 @@
                         </ContextMenu.Trigger>
                         <ContextMenu.Content class="w-52">
                             <ContextMenu.Item onclick={() => deleteMessage(msg)} inset>
+                                <Delete />
                                 Delete
                             </ContextMenu.Item>
                             <ContextMenu.Item inset disabled>
+                                <Edit />
                                 Edit
                             </ContextMenu.Item>
                             <ContextMenu.Item inset disabled>
+                                <Forward />
                                 Forward
                             </ContextMenu.Item>
                             <ContextMenu.Sub>
                                 <ContextMenu.SubTrigger inset>More Tools</ContextMenu.SubTrigger>
                                 <ContextMenu.SubContent class="w-48">
-                                    <ContextMenu.Item disabled>Copy</ContextMenu.Item>
+                                    <ContextMenu.Item disabled>
+                                        <Copy />
+                                        Copy
+                                    </ContextMenu.Item>
                                     <ContextMenu.Item>Create Shortcut...</ContextMenu.Item>
                                     <ContextMenu.Item>Name Window...</ContextMenu.Item>
                                     <ContextMenu.Separator />
