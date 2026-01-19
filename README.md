@@ -3,8 +3,8 @@
 
 > The real-time chat experience you've been waiting for. Fast, secure, and built with the modern stack for people who value speed.
 
-[![Lint Status](https://github.com/abu_jandal/PG-chatting-app/actions/workflows/lint.yml/badge.svg)](https://github.com/abu_jandal/PG-chatting-app/actions/workflows/lint.yml)
-[![Tests Status](https://github.com/abu_jandal/PG-chatting-app/actions/workflows/tests.yml/badge.svg)](https://github.com/abu_jandal/PG-chatting-app/actions/workflows/tests.yml)
+[![Lint Status](https://github.com/abu_jandal/PG-chatting-app/actions/workflows/lint.yml/badge.svg)](https://github.com/abu_jandal/PG-chatting-app/actions/workflows/lint.yml "Lint Status")
+[![Tests Status](https://github.com/abu_jandal/PG-chatting-app/actions/workflows/tests.yml/badge.svg)](https://github.com/abu_jandal/PG-chatting-app/actions/workflows/tests.yml "Tests Status")
 
 ## Features
 
@@ -106,6 +106,10 @@ Now, you can access the application at the URL provided by `php artisan serve` (
 This project uses ESLint for linting and Prettier for code formatting.
 
 -   **Check for linting errors:**
+    ```bash
+    eslint .
+    ```
+-   **Fix for linting errors:**
     ```bash
     pnpm lint
     ```

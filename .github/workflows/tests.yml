@@ -4,13 +4,9 @@ on:
   push:
     branches:
       - main
-      - workos
-      - wayfinder
   pull_request:
     branches:
       - main
-      - workos
-      - wayfinder
 
 jobs:
   ci:
