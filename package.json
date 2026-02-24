@@ -9,7 +9,7 @@
         "format:check": "prettier --check resources/",
         "lint": "eslint . --fix",
         "svelte:check": "svelte-check --tsconfig ./tsconfig.json",
-        "shadcn:update": "npx shadcn-svelte update --all"
+        "shadcn:update": "pnpx shadcn-svelte update --all"
     },
     "devDependencies": {
         "@dnd-kit-svelte/svelte": "^0.1.5",
